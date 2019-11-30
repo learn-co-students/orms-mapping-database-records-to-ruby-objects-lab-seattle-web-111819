@@ -9,28 +9,24 @@ class Student
     new_student
   end
 
-  def self.dbq(query)
+  def self.all(query="")
     DB[:conn].execute("SELECT * FROM students " + query).map {|student| new_from_db(student)}
   end
 
-  def self.all
-    dbq("")
-  end
-
   def self.find_by_name(name)
-    dbq("WHERE name = '#{name}'")[0]
+    all("WHERE name = '#{name}'")[0]
   end
 
   def self.all_students_in_grade_9
-    dbq("WHERE grade = 9")
+    all("WHERE grade = 9")
   end
 
   def self.students_below_12th_grade
-    dbq("WHERE grade < 12")
+    all("WHERE grade < 12")
   end
   
   def self.first_X_students_in_grade_10(num)
-    dbq("WHERE grade = 10 LIMIT #{num}")
+    all("WHERE grade = 10 LIMIT #{num}")
   end
 
   def self.first_student_in_grade_10
@@ -38,7 +34,7 @@ class Student
   end
 
   def self.all_students_in_grade_X(num)
-    dbq("WHERE grade = #{num}")
+    all("WHERE grade = #{num}")
   end
 
   def save
